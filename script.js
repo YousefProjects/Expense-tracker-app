@@ -4,6 +4,7 @@ const money_minus = document.getElementById("money-minus")
 const list = document.getElementById("list")
 const form = document.getElementById("form")
 const text = document.getElementById("text")
+const date = document.getElementById("date")
 const amount = document.getElementById("amount")
 
 const localStorageTransactions = JSON.parse(
@@ -22,14 +23,16 @@ function addTransaction(e) {
     const transaction = {
       id: generateId(),
       text: text.value,
+      date: date.value,
       amount: +amount.value,
     }
-    console.log(transaction)
+    console.log("new transaction =>", transaction)
     transactions.push(transaction)
     addTransactionDOM(transaction)
     updateValues()
     updateLocalStorage()
     text.value = ""
+    date.value = ""
     amount.value = ""
   }
 }
@@ -48,32 +51,35 @@ function addTransactionDOM(transactions) {
   //Add class based on value
   item.classList.add(transactions.amount < 0 ? "minus" : "plus")
   item.innerHTML = `
-    ${transactions.text} 
+    ${transactions.text}
+    <span class="date">${transactions.date.substring(5, 10)}</span>
     <span>${sign}${transactions.amount}</span>
-    <button class="delete-btn" onclick="removeTransaction(${transactions.id})">x</button>
+    <button class="delete-btn" onclick="removeTransaction(${
+      transactions.id
+    })">x</button>
   `
   list.appendChild(item)
+  console.log(transactions.date)
 }
 
 //Update the balance, income and expense
 function updateValues() {
   const amounts = transactions.map((transaction) => transaction.amount)
   console.log("amounts =", amounts)
-
-  const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2)
-  console.log("total =", total)
-
   const income = amounts
     .filter((item) => item > 0)
     .reduce((acc, item) => (acc += item), 0)
     .toFixed(2)
-  console.log("income =", income)
-
   const expense = (
     amounts.filter((item) => item < 0).reduce((acc, item) => (acc += item), 0) *
     -1
   ).toFixed(2)
+  const total = income - expense
+
+  console.log("amounts =", amounts)
+  console.log("income =", income)
   console.log("expense =", expense)
+  console.log("total =", total)
 
   balance.innerText = `$${total}`
   money_plus.innerText = `$${income}`

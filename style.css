@@ -2,27 +2,46 @@
 :root {
   --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
+.box{
+  border: 1px solid orangered;
+}
 * {
   box-sizing: border-box;
 }
 body {
-  background-color: #f7f7f7;
+  background-color: #fafafa;
   display: flex;
   flex-direction: column;
   font-family: "Roboto", sans-serif;
   align-items: center;
-  justify-content: center;
   min-height: 100vh;
   margin: 0;
   font-family: "Roboto", sans-serif;
+  position: relative;
+  top: 150px;
 }
 .container {
   margin: 30px auto;
-  width: 350px;
+  width: 830px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.column-width {
+  width: 400px;
+}
+.zero-padding{
+  padding:0;
+  margin:0;
 }
 h1 {
   letter-spacing: 1px;
   margin: 0;
+}
+#balance{
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin: 5px 0;
 }
 h3 {
   border-bottom: 1px solid #bbb;
@@ -33,47 +52,50 @@ h4 {
   margin: 0;
   text-transform: uppercase;
 }
+h2 {
+  margin: 0;
+}
 .inc-exp-container {
   background-color: #fff;
   box-shadow: var(--box-shadow);
   padding: 20px;
   display: flex;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 0px 0;
+  border-radius: 10px;
 }
 .inc-exp-container > div {
   flex: 1;
   text-align: center;
-}
-.inc-exp-container > div:first-of-type {
-  border-right: 1px solid #dedede;
 }
 .money {
   font-size: 20px;
   letter-spacing: 1px;
   margin: 5px 0;
 }
-.money.plus {
+.plus {
   color: #2ecc71;
 }
-.money.minus {
+.minus {
   color: #c0392b;
 }
+
 label {
   display: inline-block;
   margin: 10px 0;
 }
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="date"] {
   border: 1px solid #dedede;
-  border-radius: 2px;
+  border-radius: 10px;
   display: block;
   font-size: 16px;
   padding: 10px;
   width: 100%;
 }
 .btn {
-  background-color: #9c88ff;
+  background-color: #f8937e;
   box-shadow: var(--box-shadow);
   color: #fff;
   border: 0;
@@ -82,6 +104,7 @@ input[type="number"] {
   margin: 10px 0 30px;
   padding: 10px;
   width: 100%;
+  border-radius: 10px;
 }
 .btn:focus,
 .delete-btn:focus {
@@ -101,6 +124,12 @@ input[type="number"] {
   position: relative;
   padding: 10px;
   margin: 10px 0;
+}
+.list .date{
+  color: #A9A9A9;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .list li.plus {
   border-right: 5px solid #2ecc71;
