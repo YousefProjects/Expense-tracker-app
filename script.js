@@ -6,11 +6,26 @@ const form = document.getElementById("form")
 const text = document.getElementById("text")
 const date = document.getElementById("date")
 const amount = document.getElementById("amount")
+const toggle = document.querySelector(".toggle")
 
+// Switch Theme Btn (Dark/ Light)
+toggle.addEventListener("click", (e) => {
+  const html = document.querySelector("html")
+  if (html.classList.contains("dark")) {
+    html.classList.remove("dark")
+    e.target.innerHTML = 'dark'
+    console.log('light toggled')
+  } else {
+    html.classList.add("dark")
+    e.target.innerHTML = 'light'
+    console.log('dark toggled')
+  }
+})
+
+// to store transaction
 const localStorageTransactions = JSON.parse(
   localStorage.getItem("transactions")
 )
-
 let transactions =
   localStorage.getItem("transactions") !== null ? localStorageTransactions : []
 
@@ -37,18 +52,17 @@ function addTransaction(e) {
   }
 }
 
-//Generate random id
+//Generate random id for new transaction
 function generateId() {
   return Math.floor(Math.random() * 1000000)
 }
-console.log(generateId())
 
 //Add transaction to DOM list
 function addTransactionDOM(transactions) {
-  //Get sign
+  //Get sign +/-
   const sign = transactions.amount < 0 ? "-" : "+"
   const item = document.createElement("li")
-  //Add class based on value
+  //Add item to list
   item.classList.add(transactions.amount < 0 ? "minus" : "plus")
   item.innerHTML = `
     ${transactions.text}
@@ -62,10 +76,12 @@ function addTransactionDOM(transactions) {
   console.log(transactions.date)
 }
 
-//Update the balance, income and expense
+//Update balance, income and expense
 function updateValues() {
+  // all mounts in the list
   const amounts = transactions.map((transaction) => transaction.amount)
   console.log("amounts =", amounts)
+  // calculate balance, income , expense
   const income = amounts
     .filter((item) => item > 0)
     .reduce((acc, item) => (acc += item), 0)
@@ -76,17 +92,19 @@ function updateValues() {
   ).toFixed(2)
   const total = income - expense
 
+  // print them in the console
   console.log("amounts =", amounts)
   console.log("income =", income)
   console.log("expense =", expense)
   console.log("total =", total)
 
+  // render the results
   balance.innerText = `$${total}`
   money_plus.innerText = `$${income}`
   money_minus.innerText = `$${expense}`
 }
 
-//Remove transaction by ID
+//Remove transaction from the list - by ID
 function removeTransaction(id) {
   transactions = transactions.filter((transaction) => transaction.id !== id)
   updateLocalStorage()
@@ -104,6 +122,5 @@ function init() {
   transactions.forEach(addTransactionDOM)
   updateValues()
 }
-
 init()
 form.addEventListener("submit", addTransaction)
